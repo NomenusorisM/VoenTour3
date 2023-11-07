@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    field.cpp \
     main.cpp \
     main_form.cpp
 
@@ -25,6 +26,12 @@ HEADERS += \
     main_form.h
 
 FORMS += \
+    main_form.ui
+    field.h \
+    widget.h
+
+FORMS += \
+    field.ui \
     main_form.ui
 
 # Default rules for deployment.

@@ -1,4 +1,5 @@
 #include "main_form.h"
+#include "field.h"
 
 #include <QApplication>
 
