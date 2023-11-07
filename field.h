@@ -1,5 +1,5 @@
-#ifndef FIELD_H
-#define FIELD_H
+#ifndef FIELD_OLD_H
+#define FIELD_OLD_H
 
 #include <QWidget>
 
@@ -13,12 +13,12 @@ class Field : public QWidget
 
 public:
     Field(
-            QVector<QLine> roads,
-            QVector<QPoint> positions,
-            QVector<QLine> routes,
-            QPoint mainPoint,
-            QWidget *parent = nullptr
-            );
+        QVector<QLine> roads,
+        QVector<QPoint> positions,
+        QVector<QLine> routes,
+        QPoint mainPoint,
+        QWidget *parent = nullptr
+        );
     ~Field();
 
 protected:
@@ -33,4 +33,4 @@ private:
     QPoint mainPoint;
 };
 
-#endif // FIELD_H
+#endif // FIELD_OLD_H

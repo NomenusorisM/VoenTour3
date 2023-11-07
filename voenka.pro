@@ -23,15 +23,14 @@ SOURCES += \
     main_form.cpp
 
 HEADERS += \
+    field.h \
     main_form.h
 
 FORMS += \
-    main_form.ui
-    field.h \
-    widget.h
+    field.ui \
+    main_form.ui \
 
 FORMS += \
-    field.ui \
     main_form.ui
 
 # Default rules for deployment.

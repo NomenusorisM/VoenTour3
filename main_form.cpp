@@ -58,7 +58,14 @@ void MainForm::fillArray(QStringList &list, QVector<QLine> &array)
 
 void MainForm::handleStartButtonClicked()
 {
+    field_dlg = new Field(
+        input_conf.roads_cords,
+        input_conf.squad_cords,
+        input_conf.roads_cords,
+        input_conf.dest_cords
+        );
 
+    field_dlg->show();
 }
 
 void MainForm::handleImportButtonClicked()
@@ -82,6 +89,11 @@ void MainForm::handleImportButtonClicked()
         // read squads_cnt
         line = in.readLine();
         input_conf.squads_cnt = line.toInt();
+
+        // read dest_cords
+        line = in.readLine();
+        parts = line.split(";");
+        input_conf.dest_cords = QPoint(parts[0].toInt(), parts[1].toInt());
 
         // read squad_cords
         line = in.readLine();
@@ -123,5 +135,6 @@ void MainForm::handleImportButtonClicked()
 
 MainForm::~MainForm()
 {
+    delete field_dlg;
     delete ui;
 }

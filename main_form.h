@@ -13,6 +13,8 @@
 #include <QTextStream>
 #include <QStringList>
 
+#include "field.h"
+
 namespace Ui {
 class MainForm;
 }
@@ -20,6 +22,7 @@ class MainForm;
 struct InputFile
 {
     int squads_cnt;
+    QPoint dest_cords;
     QVector<QPoint> squad_cords;
     QVector<int> squad_types;
     QVector<int> squad_speeds;
@@ -42,6 +45,7 @@ private slots:
 
 private:
     Ui::MainForm *ui;
+    Field *field_dlg;
     InputFile input_conf;
 
     void fillArray(QStringList &list, QVector<int> &array);

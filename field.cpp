@@ -1,14 +1,14 @@
-#include "field.h"
 #include "ui_field.h"
-#include "qpainter.h"
+#include <QPainter>
+#include "field.h"
 
 Field::Field(
-        QVector<QLine> roads,
-        QVector<QPoint> positions,
-        QVector<QLine> routes,
-        QPoint mainPoint,
-        QWidget *parent
-        ) :
+    QVector<QLine> roads,
+    QVector<QPoint> positions,
+    QVector<QLine> routes,
+    QPoint mainPoint,
+    QWidget *parent
+    ) :
     QWidget(parent),
     ui(new Ui::Field)
 {
@@ -28,6 +28,7 @@ Field::~Field()
 void Field::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter painter(this);
+    painter.scale(10.0, 10.0);
     QPen pen;
     pen.setColor(Qt::black);
     pen.setWidth(3);
