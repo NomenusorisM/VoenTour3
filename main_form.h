@@ -51,6 +51,10 @@ private:
     Ui::MainForm *ui;
     Field *field_dlg;
     InputFile input_conf;
+
+    QVector<int> GetFuelConsumption(QVector<int> &path_lengths);
+    float GetMaxTime(QVector<int> &path_lengths);
+    void WriteAnswers(QVector<int> &fuel_consumptions, int max_time);
 };
 
 #endif // MAIN_FORM_H

@@ -2,12 +2,8 @@
 
 #include "PathFinding.h"
 
-PathAlgoResult WaveAlgo( int N_p, QVector<int> finish_pos, QVector<QPoint> start_pos, int N_r, QVector<QLine> roads)
+PathAlgoResult WaveAlgo( int N_p, QPoint finish_pos, QVector<QPoint> start_pos, int N_r, QVector<QLine> roads)
 {
-
-	QLine Temp_line;
-	QPoint Temp_point;
-
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 
     int paths_matrix[maxcoord][maxcoord] = { 0 };
@@ -15,13 +11,11 @@ PathAlgoResult WaveAlgo( int N_p, QVector<int> finish_pos, QVector<QPoint> start
 	QVector <QLine> shortest_paths;
 	QVector <int> path_lengths;
 
-	QPoint finish_point = { -1, -1 };
-
 	generate_paths_matrix(roads, paths_matrix);
 
 	for( int i = 0; i < N_p; i++ )
 	{
-		path_lengths.push_back(find_path( paths_matrix, start_pos[i], finish_point, shortest_paths ));
+        path_lengths.push_back(find_path( paths_matrix, start_pos[i], finish_pos, shortest_paths ));
 	}
 
     return std::make_tuple( shortest_paths, path_lengths );;
@@ -32,9 +26,9 @@ void generate_paths_matrix( QVector <QLine>& roads, int paths[][maxcoord] )
 {
     for(int i = 0; i < roads.size(); i++ )
     {
-        for( int j = roads[i].x1; j <= roads[i].x2; j++ )
+        for( int j = roads[i].x1(); j <= roads[i].x2(); j++ )
         {
-            for( int k = roads[i].y1; k <= roads[i].y2; k++ )
+            for( int k = roads[i].y1(); k <= roads[i].y2(); k++ )
 			{
                 paths[k][j] = 1;
 			}
@@ -46,7 +40,7 @@ int find_path( int paths_matrix[][maxcoord], struct QPoint start_pos, struct QPo
 {
     int DRP[maxcoord][maxcoord] = { 0 };
     int waving = 1;
-    int start_x = start_pos.x, start_y = start_pos.y, end_x = finish_point.x, end_y = finish_point.y;
+    int start_x = start_pos.x(), start_y = start_pos.y(), end_x = finish_point.x(), end_y = finish_point.y();
     int x, y;
     int wave = 1;
     int LEN=0;

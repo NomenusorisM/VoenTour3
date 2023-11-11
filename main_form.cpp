@@ -12,6 +12,50 @@ MainForm::MainForm(QWidget *parent) :
     connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
 }
 
+QVector<int> MainForm::GetFuelConsumption(QVector<int> &path_lengths)
+{
+    QVector<int> fuel_consumptions;
+
+    for (int i(0); i < path_lengths.size(); i++)
+    {
+        fuel_consumptions.push_back(path_lengths[i] * input_conf.squad_fuel_consumption[i]);
+    }
+
+    return fuel_consumptions;
+}
+
+float MainForm::GetMaxTime(QVector<int> &path_lengths)
+{
+    int maximal = -10000;
+
+    for (int i(0); i < path_lengths.size(); i++)
+        maximal = std::max(path_lengths[i] / input_conf.squad_speeds[i], maximal);
+
+    return maximal;
+}
+
+void MainForm::WriteAnswers(QVector<int> &fuel_consumptions, int max_time)
+{
+    QString fuel_consumptions_result;
+
+    for (int i(0); i < fuel_consumptions.size(); i++)
+        fuel_consumptions_result += (QString("%1").arg(fuel_consumptions[i]) + " ");
+
+    fuel_consumptions_result.chop(1);
+
+    qDebug() << fuel_consumptions_result;
+
+    QString filename = "OUTPUT.TXT";
+    QFile file( filename );
+    if ( file.open(QIODevice::WriteOnly) )
+    {
+        qDebug() << 1;
+        QTextStream stream( &file );
+        stream << fuel_consumptions_result << '\n';
+        stream << QString("%1").arg(max_time);
+    }
+}
+
 void MainForm::handleStartButtonClicked()
 {
     auto shortest_path = WaveAlgo(input_conf.squads_cnt, input_conf.dest_cords, input_conf.squad_cords, input_conf.roads_cnt, input_conf.roads_cords);
@@ -21,14 +65,19 @@ void MainForm::handleStartButtonClicked()
 
     std::tie(shortest_roads, path_lenghts) = shortest_path;
 
-    this->field_dlg = new Field(
-        input_conf.roads_cords,
-        input_conf.squad_cords,
-        shortest_roads,
-        input_conf.dest_cords
-        );
+    auto fuel_consumtpions = GetFuelConsumption(path_lenghts);
+    auto max_time = GetMaxTime(path_lenghts);
 
-    this->field_dlg->show();
+    WriteAnswers(fuel_consumtpions, max_time);
+
+//    this->field_dlg = new Field(
+//        input_conf.roads_cords,
+//        input_conf.squad_cords,
+//        shortest_roads,
+//        input_conf.dest_cords
+//        );
+
+//    this->field_dlg->show();
 }
 
 void MainForm::handleImportButtonClicked()
