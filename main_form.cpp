@@ -70,14 +70,14 @@ void MainForm::handleStartButtonClicked()
 
     WriteAnswers(fuel_consumtpions, max_time);
 
-//    this->field_dlg = new Field(
-//        input_conf.roads_cords,
-//        input_conf.squad_cords,
-//        shortest_roads,
-//        input_conf.dest_cords
-//        );
+    this->field_dlg = new Field(
+        input_conf.roads_cords,
+        input_conf.squad_cords,
+        shortest_roads,
+        input_conf.dest_cords
+        );
 
-//    this->field_dlg->show();
+    this->field_dlg->show();
 }
 
 void MainForm::handleImportButtonClicked()
