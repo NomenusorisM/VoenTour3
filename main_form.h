@@ -14,6 +14,10 @@
 #include <QStringList>
 
 #include "field.h"
+#include "main_form.h"
+#include "ui_main_form.h"
+#include "fill_utils.h"
+#include "PathFinding.h"
 
 namespace Ui {
 class MainForm;
@@ -47,10 +51,6 @@ private:
     Ui::MainForm *ui;
     Field *field_dlg;
     InputFile input_conf;
-
-    void fillArray(QStringList &list, QVector<int> &array);
-    void fillArray(QStringList &list, QVector<QPoint> &array);
-    void fillArray(QStringList &list, QVector<QLine> &array);
 };
 
 #endif // MAIN_FORM_H

@@ -1,5 +1,4 @@
 #include "main_form.h"
-#include "ui_main_form.h"
 
 MainForm::MainForm(QWidget *parent) :
     QDialog(parent),
@@ -13,59 +12,23 @@ MainForm::MainForm(QWidget *parent) :
     connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
 }
 
-void MainForm::fillArray(QStringList &list, QVector<int> &array)
-{
-    for (int i = 0; i < list.size(); ++i)
-    {
-        bool is_ok = true;
-        array.push_back(list[i].toInt(&is_ok));
-        if (!is_ok) { qDebug() << "Convert error"; }
-    }
-}
-
-void MainForm::fillArray(QStringList &list, QVector<QPoint> &array)
-{
-    for (int i = 0; i < list.size(); ++i)
-    {
-        bool is_ok = true;
-
-        auto cord_paths = list[i].split(";");
-
-        array.push_back(QPoint(cord_paths[0].toInt(), cord_paths[1].toInt()));
-
-        if (!is_ok) { qDebug() << "Convert error"; }
-    }
-}
-
-void MainForm::fillArray(QStringList &list, QVector<QLine> &array)
-{
-    for (int i = 0; i < list.size(); ++i)
-    {
-        bool is_ok = true;
-
-        auto cord_paths = list[i].split(";");
-
-        const auto start = QPoint(cord_paths[0].toInt(), cord_paths[1].toInt());
-        const auto end = QPoint(cord_paths[2].toInt(), cord_paths[3].toInt());
-
-        auto line = QLine(start, end);
-
-        array.push_back(line);
-
-        if (!is_ok) { qDebug() << "Convert error"; }
-    }
-}
-
 void MainForm::handleStartButtonClicked()
 {
-    field_dlg = new Field(
+    auto shortest_path = WaveAlgo(input_conf.squads_cnt, input_conf.dest_cords, input_conf.squad_cords, input_conf.roads_cnt, input_conf.roads_cords);
+
+    QVector<QLine> shortest_roads;
+    QVector<int> path_lenghts;
+
+    std::tie(shortest_roads, path_lenghts) = shortest_path;
+
+    this->field_dlg = new Field(
         input_conf.roads_cords,
         input_conf.squad_cords,
-        input_conf.roads_cords,
+        shortest_roads,
         input_conf.dest_cords
         );
 
-    field_dlg->show();
+    this->field_dlg->show();
 }
 
 void MainForm::handleImportButtonClicked()

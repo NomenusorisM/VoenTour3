@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++14
 
 UI_DIR = $$PWD
 
@@ -19,12 +19,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     field.cpp \
+    fill_utils.cpp \
     main.cpp \
-    main_form.cpp
+    main_form.cpp \
+    PathFinding.cpp
 
 HEADERS += \
     field.h \
-    main_form.h
+    fill_utils.h \
+    main_form.h \
+    PathFinding.h
 
 FORMS += \
     field.ui \
