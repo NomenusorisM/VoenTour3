@@ -1,0 +1,28 @@
+{
+	"stations_cnt": 2,
+	"stations": [
+		{
+			"name": 1,
+			"cord": "A1",
+			"chain_cnt": 1,
+		},
+		{
+			"name": 2,
+			"cord": "B3",
+			"chain_cnt": 1,
+		}
+		
+	],
+	"delays": [
+		{
+			"name_1": 1,
+			"name_2": 2,
+			"delay": 20,
+		},
+		{
+			"name_1": 2,
+			"name_2": 1,
+			"delay": 20,
+		}
+	]
+}

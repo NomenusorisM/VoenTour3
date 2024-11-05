@@ -1,0 +1,12 @@
+[
+	{
+		"target_station": 2,
+		"sum_delay": 10,
+		"first_station": 1
+	},
+	{
+		"target_station": 3,
+		"sum_delay": 10,
+		"first_station": 2
+	}
+]

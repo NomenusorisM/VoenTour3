@@ -9,3 +9,4 @@
 *.sqlite
 /.vscode
 .vs/ProjectSettings.json
+/build
