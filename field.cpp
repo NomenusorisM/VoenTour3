@@ -25,13 +25,17 @@ Field::~Field()
     delete ui;
 }
 
-void Field::paintEvent(QPaintEvent *event) {
+void Field::paintEvent(QPaintEvent *event) 
+{
     Q_UNUSED(event);
     QPainter painter(this);
     painter.scale(10.0, 10.0);
-    QPen pen;
+
+    int gridSize = 9;
+    drawGrid(painter, gridSize);
 
     // Отрисовываем дороги
+    QPen pen;
     pen.setColor(Qt::black);
     pen.setWidth(2);
     painter.setPen(pen);
@@ -57,4 +61,19 @@ void Field::paintEvent(QPaintEvent *event) {
     pen.setWidth(5);
     painter.setPen(pen);
     painter.drawPoint(mainPoint);
+}
+
+void Field::drawGrid(QPainter &painter, int gridSize) {
+    QPen pen;
+    pen.setColor(Qt::gray);
+    pen.setWidth(1);
+    painter.setPen(pen);
+
+    for (int i = 0; i <= gridSize; ++i) {
+        painter.drawLine(i, 0, i, gridSize);
+    }
+
+    for (int i = 0; i <= gridSize; ++i) {
+        painter.drawLine(0, i, gridSize, i);
+    }
 }
