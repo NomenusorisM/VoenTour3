@@ -4,3 +4,4 @@
 /.vscode
 /build
 voenka.pro.user*
+OUTPUT_test.json
