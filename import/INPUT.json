@@ -4,12 +4,12 @@
 		{
 			"name": 1,
 			"cord": "A1",
-			"chain_cnt": 1,
+			"chain_cnt": 1
 		},
 		{
 			"name": 2,
 			"cord": "B3",
-			"chain_cnt": 1,
+			"chain_cnt": 1
 		}
 		
 	],
@@ -17,12 +17,12 @@
 		{
 			"name_1": 1,
 			"name_2": 2,
-			"delay": 20,
+			"delay": 20
 		},
 		{
 			"name_1": 2,
 			"name_2": 1,
-			"delay": 20,
+			"delay": 20
 		}
 	]
 }

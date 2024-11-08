@@ -1,12 +1,7 @@
 .vs
-.vs/VoenTour3/FileContentIndex/58b71e5e-39af-43e6-ba0d-9b4e3e6f9801.vsidx
-.vs/VSWorkspaceState.json
-.vs/VoenTour3/v17/ipch/AutoPCH/374d6854edcba0fb/MAIN.ipch
-.vs/VoenTour3/v17/Browse.VC.db
-.vs/VoenTour3/v17/.wsuo
-.vs/VoenTour3/FileContentIndex/fb763492-cf1e-4b36-9d9e-c478bd52a39a.vsidx
 *.vsidx
 *.sqlite
 /.vscode
-.vs/ProjectSettings.json
 /build
+voenka.pro.user*
+OUTPUT_test.json
