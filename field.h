@@ -2,6 +2,7 @@
 #define FIELD_OLD_H
 
 #include <QWidget>
+#include "json_io.h"
 
 namespace Ui {
 class Field;
@@ -13,10 +14,8 @@ class Field : public QWidget
 
 public:
     Field(
-        QVector<QLine> roads,
-        QVector<QPoint> positions,
-        QVector<QLine> routes,
-        QPoint mainPoint,
+        StationsArray stations,
+        DelaysArray connections,
         QWidget *parent = nullptr
         );
     ~Field();
@@ -27,10 +26,8 @@ protected:
 private:
     Ui::Field *ui;
 
-    QVector<QLine> roads;
-    QVector<QPoint> positions;
-    QVector<QLine> routes;
-    QPoint mainPoint;
+    StationsArray stations;
+    DelaysArray connections;
 };
 
 #endif // FIELD_OLD_H

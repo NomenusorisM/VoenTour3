@@ -1,12 +1,11 @@
 #include "ui_field.h"
 #include <QPainter>
 #include "field.h"
+#include "json_io.h"
 
 Field::Field(
-    QVector<QLine> roads,
-    QVector<QPoint> positions,
-    QVector<QLine> routes,
-    QPoint mainPoint,
+    StationsArray stations,
+    DelaysArray connections,
     QWidget *parent
     ) :
     QWidget(parent),
@@ -14,10 +13,8 @@ Field::Field(
 {
     ui->setupUi(this);
 
-    this->roads = roads;
-    this->positions = positions;
-    this->routes = routes;
-    this->mainPoint = mainPoint;
+    this->stations = stations;
+    this->connections = connections;
 }
 
 Field::~Field()
@@ -25,55 +22,124 @@ Field::~Field()
     delete ui;
 }
 
-void Field::paintEvent(QPaintEvent *event) 
+void Field::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
     QPainter painter(this);
-    painter.scale(10.0, 10.0);
+    painter.setRenderHint(QPainter::Antialiasing); // Для сглаживания
 
-    int gridSize = 9;
-    drawGrid(painter, gridSize);
+    // Рисуем координатную сетку
+    drawGrid(painter);
 
-    // Отрисовываем дороги
-    QPen pen;
-    pen.setColor(Qt::black);
-    pen.setWidth(2);
-    painter.setPen(pen);
-    for(auto road: roads)
-        painter.drawLine(road);
+    // Отрисовываем станции
+    drawStations(painter);
 
-    // Отрисовываем пути
-    pen.setColor(Qt::green);
-    pen.setWidth(1);
-    painter.setPen(pen);
-    for(auto route: routes)
-        painter.drawLine(route);
-
-    // Отрисовываем позиции
-    pen.setColor(Qt::blue);
-    pen.setWidth(3);
-    painter.setPen(pen);
-    for(auto pos: positions)
-        painter.drawPoint(pos);
-
-    // Отрисовываем базу
-    pen.setColor(Qt::red);
-    pen.setWidth(5);
-    painter.setPen(pen);
-    painter.drawPoint(mainPoint);
+    // Отрисовываем соединения
+    drawConnections(painter);
 }
 
-void Field::drawGrid(QPainter &painter, int gridSize) {
-    QPen pen;
-    pen.setColor(Qt::gray);
-    pen.setWidth(1);
-    painter.setPen(pen);
+// Метод для отрисовки сетки с буквами и цифрами
+void Field::drawGrid(QPainter &painter)
+{
+    const int gridSize = 40;  // Размер ячеек сетки
+    const int numCells = 8;  // Количество ячеек по каждой оси
 
-    for (int i = 0; i <= gridSize; ++i) {
-        painter.drawLine(i, 0, i, gridSize);
+    QPen gridPen(QColor(200, 200, 200));
+    painter.setPen(gridPen);
+
+    // Рисуем вертикальные и горизонтальные линии сетки
+    for (int i = 0; i <= numCells; ++i) {
+        int x = i * gridSize;
+        int y = i * gridSize;
+
+        // Вертикальные линии
+        painter.drawLine(x, 0, x, gridSize * numCells);
+        // Горизонтальные линии
+        painter.drawLine(0, y, gridSize * numCells, y);
     }
 
-    for (int i = 0; i <= gridSize; ++i) {
-        painter.drawLine(0, i, gridSize, i);
+    // Рисуем метки координат
+    QFont font = painter.font();
+    font.setPointSize(10);
+    painter.setFont(font);
+
+    // Метки по горизонтали (буквы)
+    for (int i = 0; i < numCells; ++i) {
+        char letter = 'A' + i;
+        painter.drawText(i * gridSize + 10, 15, QString(letter));
+    }
+
+    // Метки по вертикали (цифры)
+    for (int i = 0; i < numCells; ++i) {
+        painter.drawText(10, i * gridSize + 25, QString::number(i + 1));
+    }
+}
+
+// Метод для отрисовки станций
+void Field::drawStations(QPainter &painter)
+{
+    const int gridSize = 40;  // Размер ячеек сетки
+
+    QPen stationPen(Qt::blue);
+    stationPen.setWidth(5);
+    painter.setPen(stationPen);
+
+    for (const auto& station : stations) {
+        // Преобразуем координаты станции из "A1", "D4" в индексы
+        int x = station.cord[0] - 'A';  // Преобразуем букву в индекс по оси X
+        int y = station.cord[1] - '1';  // Преобразуем цифру в индекс по оси Y
+
+        // Рисуем точку станции
+        painter.drawPoint(x * gridSize + gridSize / 2, y * gridSize + gridSize / 2);
+    }
+}
+
+// Метод для отрисовки соединений между станциями и отображения задержек
+void Field::drawConnections(QPainter &painter)
+{
+    const int gridSize = 40;  // Размер ячеек сетки
+
+    QPen connectionPen(Qt::black);
+    connectionPen.setWidth(2);
+    painter.setPen(connectionPen);
+
+    // Проходим по всем задержкам и рисуем линии между станциями
+    for (const auto& delay : connections) {
+        // Находим станции по их id
+        const station_t* station1 = nullptr;
+        const station_t* station2 = nullptr;
+
+        // Ищем станции с id_1 и id_2
+        for (const auto& station : stations) {
+            if (station.id == delay.id_1) {
+                station1 = &station;
+            }
+            if (station.id == delay.id_2) {
+                station2 = &station;
+            }
+        }
+
+        // Если обе станции найдены, рисуем соединение между ними
+        if (station1 && station2) {
+            // Преобразуем координаты станций из "A1", "D4" в индексы
+            int x1 = station1->cord[0] - 'A';
+            int y1 = station1->cord[1] - '1';
+            int x2 = station2->cord[0] - 'A';
+            int y2 = station2->cord[1] - '1';
+
+            // Рисуем линию между станциями
+            painter.drawLine(x1 * gridSize + gridSize / 2, y1 * gridSize + gridSize / 2,
+                             x2 * gridSize + gridSize / 2, y2 * gridSize + gridSize / 2);
+
+            // Рассчитываем середину линии для текста (задержки)
+            int midX = (x1 + x2) * gridSize / 2 + gridSize / 2;
+            int midY = (y1 + y2) * gridSize / 2 + gridSize / 2;
+
+            // Отображаем задержку на середине линии
+            QFont font = painter.font();
+            font.setPointSize(8);
+            painter.setFont(font);
+            painter.setPen(Qt::red);  // Цвет текста (красный)
+            painter.drawText(midX, midY - 5, QString::number(delay.del));
+        }
     }
 }

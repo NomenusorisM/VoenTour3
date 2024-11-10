@@ -58,24 +58,37 @@ void MainForm::WriteAnswers(QVector<int> &fuel_consumptions, int max_time)
 
 void MainForm::handleStartButtonClicked()
 {
-    auto shortest_path = WaveAlgo(input_conf.squads_cnt, input_conf.dest_cords, input_conf.squad_cords, input_conf.roads_cnt, input_conf.roads_cords);
+    // auto shortest_path = WaveAlgo(input_conf.squads_cnt, input_conf.dest_cords, input_conf.squad_cords, input_conf.roads_cnt, input_conf.roads_cords);
 
-    QVector<QLine> shortest_roads;
-    QVector<int> path_lenghts;
+    // QVector<QLine> shortest_roads;
+    // QVector<int> path_lenghts;
 
-    std::tie(shortest_roads, path_lenghts) = shortest_path;
+    // std::tie(shortest_roads, path_lenghts) = shortest_path;
 
-    auto fuel_consumtpions = GetFuelConsumption(path_lenghts);
-    auto max_time = GetMaxTime(path_lenghts);
+    // auto fuel_consumtpions = GetFuelConsumption(path_lenghts);
+    // auto max_time = GetMaxTime(path_lenghts);
 
-    WriteAnswers(fuel_consumtpions, max_time);
+    // WriteAnswers(fuel_consumtpions, max_time);
 
-    this->field_dlg = new Field(
-        input_conf.roads_cords,
-        input_conf.squad_cords,
-        shortest_roads,
-        input_conf.dest_cords
-        );
+    //--------------- Тестирование отрисовки --------------------------//
+    StationsArray stations = {
+        {1, {'A', '1', 0}},
+        {2, {'B', '2', 0}},
+        {3, {'C', '3', 0}},
+        {4, {'D', '4', 0}},
+        {5, {'E', '5', 0}}
+    };
+
+    // Пример задержек (связей между станциями)
+    DelaysArray delays = {
+        {1, 2, 5},  // Связь между станциями 1 и 2 с задержкой 5
+        {2, 3, 10}, // Связь между станциями 2 и 3 с задержкой 10
+        {3, 4, 3},  // Связь между станциями 3 и 4 с задержкой 3
+        {4, 5, 7},  // Связь между станциями 4 и 5 с задержкой 7
+        {1, 3, 8}   // Связь между станциями 1 и 3 с задержкой 8
+    };
+    
+    this->field_dlg = new Field(stations, delays);
 
     this->field_dlg->show();
 }
