@@ -1,10 +1,11 @@
 #include "BuildPathTable.h"
 
-OutputValues BuildPathTable( uint32_t RaschetNumber, StationsArray Stations, std::vector<DelaysArray> Connections )
+OutputValues BuildPathTable( uint32_t RaschetNumber, StationsArray Stations, DelaysArray Connections )
 {
     OutputValues Output( MAX_STATIONS );
     PathLenMatrix_t PathMatrix[MAX_STATIONS];
     int32_t ConnectionsMatrix[MAX_STATIONS][MAX_STATIONS];
+    uint32_t chains_number = 0;
 
     for( int i = 0; i < MAX_STATIONS; i++ )
     {
@@ -17,10 +18,14 @@ OutputValues BuildPathTable( uint32_t RaschetNumber, StationsArray Stations, std
 
     for( int i = 0; i < RaschetNumber; i++ )
     {
-        for( int j = 0; j < Stations[i].chains_cnt; j++ )
-        {
-            ConnectionsMatrix[i][Get_Station_Index( RaschetNumber, Stations, Connections[i][j].id_2 )] = Connections[i][j].del;
-        }
+        chains_number += Stations[i].chains_cnt;
+    }
+
+    for( int j = 0; j < chains_number; j++ )
+    {
+        int32_t sender = Get_Station_Index( RaschetNumber, Stations, Connections[j].id_1 );
+        int32_t receiver = Get_Station_Index( RaschetNumber, Stations, Connections[j].id_2 );
+        ConnectionsMatrix[sender][receiver] = Connections[j].del;
     }
 
     PathMatrix[0].path_len = 0;
@@ -33,14 +38,14 @@ OutputValues BuildPathTable( uint32_t RaschetNumber, StationsArray Stations, std
 
     for( int i = 0; i < Stations[0].chains_cnt; i++ )
     {
-        uint32_t current_station = Get_Station_Index( RaschetNumber, Stations, Connections[0][i].id_2 );
+        int32_t current_station = Get_Station_Index( RaschetNumber, Stations, Connections[i].id_2 );
         PathMatrix[current_station].first_station_index = current_station;
         PathMatrix[current_station].path_len = ConnectionsMatrix[0][current_station];
     }
 
     for( int i = 0; i < Stations[0].chains_cnt; i++ )
     {
-        uint32_t current_station = Get_Station_Index( RaschetNumber, Stations, Connections[0][i].id_2 );
+        int32_t current_station = Get_Station_Index( RaschetNumber, Stations, Connections[i].id_2 );
         UpdatePathMatrix( ConnectionsMatrix, PathMatrix, current_station );
     }
 
@@ -67,7 +72,7 @@ uint32_t Get_Station_Index( uint32_t RaschetNumber, StationsArray Stations, uint
 
 void UpdatePathMatrix( int32_t ConnectionsMatrix[][MAX_STATIONS], PathLenMatrix_t PathMatrix[], uint32_t current_station )
 {
-    uint32_t next_station = 0;
+    int32_t next_station = 0;
     for( int i = 0; i < MAX_STATIONS; i++ )
     {
         if( ConnectionsMatrix[current_station][i] != -1 )

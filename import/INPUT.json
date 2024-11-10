@@ -1,27 +1,121 @@
 {
-	"stations_cnt": 2,
+	"stations_cnt": 7,
 	"stations": [
 		{
-			"name": 1,
-			"cord": "A1",
-			"chain_cnt": 1
+			"name": 0,
+			"cord": "D4",
+			"chain_cnt": 3
 		},
 		{
-			"name": 2,
-			"cord": "B3",
+			"name": 1001100,
+			"cord": "H2",
+			"chain_cnt": 3
+		},
+		{
+			"name": 1001101,
+			"cord": "G3",
+			"chain_cnt": 2
+		},
+		{
+			"name": 1001200,
+			"cord": "D8",
+			"chain_cnt": 2
+		},
+		{
+			"name": 1002000,
+			"cord": "E2",
+			"chain_cnt": 3
+		},
+		{
+			"name": 1005201,
+			"cord": "H8",
+			"chain_cnt": 2
+		},
+		{
+			"name": 1000324,
+			"cord": "A1",
 			"chain_cnt": 1
 		}
-		
 	],
 	"delays": [
 		{
-			"name_1": 1,
-			"name_2": 2,
+			"name_1": 0,
+			"name_2": 1000324,
 			"delay": 20
 		},
 		{
-			"name_1": 2,
-			"name_2": 1,
+			"name_1": 0,
+			"name_2": 1002000,
+			"delay": 20
+		},
+		{
+			"name_1": 0,
+			"name_2": 1001200,
+			"delay": 20
+		},
+		{
+			"name_1": 1001100,
+			"name_2": 1005201,
+			"delay": 20
+		},
+		{
+			"name_1": 1001100,
+			"name_2": 1001101,
+			"delay": 20
+		},
+		{
+			"name_1": 1001100,
+			"name_2": 1002000,
+			"delay": 20
+		},
+		{
+			"name_1": 1001101,
+			"name_2": 1001100,
+			"delay": 20
+		},
+		{
+			"name_1": 1001101,
+			"name_2": 1002000,
+			"delay": 20
+		},
+		{
+			"name_1": 1001200,
+			"name_2": 0,
+			"delay": 20
+		},
+		{
+			"name_1": 1001200,
+			"name_2": 1005201,
+			"delay": 20
+		},
+		{
+			"name_1": 1002000,
+			"name_2": 0,
+			"delay": 20
+		},
+		{
+			"name_1": 1002000,
+			"name_2": 1001100,
+			"delay": 20
+		},
+		{
+			"name_1": 1002000,
+			"name_2": 1001101,
+			"delay": 20
+		},
+		{
+			"name_1": 1005201,
+			"name_2": 1001100,
+			"delay": 20
+		},
+		{
+			"name_1": 1005201,
+			"name_2": 1001200,
+			"delay": 20
+		},
+		{
+			"name_1": 1000324,
+			"name_2": 0,
 			"delay": 20
 		}
 	]
