@@ -1,15 +1,15 @@
-#include "ui_field.h"
+#include "ui_form.h"
 #include <QPainter>
-#include "field.h"
+#include "form.h"
 #include "json_io.h"
 
-Field::Field(
+Form::Form(
     StationsArray stations,
     DelaysArray connections,
     QWidget *parent
     ) :
     QWidget(parent),
-    ui(new Ui::Field)
+    ui(new Ui::Form)
 {
     ui->setupUi(this);
 
@@ -17,12 +17,12 @@ Field::Field(
     this->connections = connections;
 }
 
-Field::~Field()
+Form::~Form()
 {
     delete ui;
 }
 
-void Field::paintEvent(QPaintEvent *event)
+void Form::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing); // Для сглаживания
@@ -38,7 +38,7 @@ void Field::paintEvent(QPaintEvent *event)
 }
 
 // Метод для отрисовки сетки с буквами и цифрами
-void Field::drawGrid(QPainter &painter)
+void Form::drawGrid(QPainter &painter)
 {
     const int gridSize = 40;  // Размер ячеек сетки
     const int numCells = 8;  // Количество ячеек по каждой оси
@@ -75,7 +75,7 @@ void Field::drawGrid(QPainter &painter)
 }
 
 // Метод для отрисовки станций
-void Field::drawStations(QPainter &painter)
+void Form::drawStations(QPainter &painter)
 {
     const int gridSize = 40;  // Размер ячеек сетки
 
@@ -94,7 +94,7 @@ void Field::drawStations(QPainter &painter)
 }
 
 // Метод для отрисовки соединений между станциями и отображения задержек
-void Field::drawConnections(QPainter &painter)
+void Form::drawConnections(QPainter &painter)
 {
     const int gridSize = 40;  // Размер ячеек сетки
 

@@ -13,7 +13,7 @@
 #include <QTextStream>
 #include <QStringList>
 
-#include "field.h"
+#include "form.h"
 #include "main_form.h"
 #include "ui_main_form.h"
 #include "fill_utils.h"
@@ -49,7 +49,7 @@ private slots:
 
 private:
     Ui::MainForm *ui;
-    Field *field_dlg;
+    Form *field_dlg;
     InputFile input_conf;
 
     QVector<int> GetFuelConsumption(QVector<int> &path_lengths);

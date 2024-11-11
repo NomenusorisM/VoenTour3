@@ -18,26 +18,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    field.cpp \
     fill_utils.cpp \
+    form.cpp \
     json_io.cpp \
     main.cpp \
     main_form.cpp \
     PathFinding.cpp
 
 HEADERS += \
-    field.h \
     fill_utils.h \
+    form.h \
     json_io.h \
     main_form.h \
-    PathFinding.h
+    PathFinding.h \
+    ui_form.h
 
 FORMS += \
-    field.ui \
+    form.ui \
     main_form.ui \
-
-FORMS += \
-    main_form.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
