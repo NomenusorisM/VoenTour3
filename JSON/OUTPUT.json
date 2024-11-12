@@ -1,0 +1,37 @@
+[
+    {
+        "first_station": 0,
+        "sum_delay": 0,
+        "target_station": 0
+    },
+    {
+        "first_station": 1002000,
+        "sum_delay": 40,
+        "target_station": 1001100
+    },
+    {
+        "first_station": 1002000,
+        "sum_delay": 40,
+        "target_station": 1001101
+    },
+    {
+        "first_station": 1001200,
+        "sum_delay": 20,
+        "target_station": 1001200
+    },
+    {
+        "first_station": 1002000,
+        "sum_delay": 20,
+        "target_station": 1002000
+    },
+    {
+        "first_station": 1001200,
+        "sum_delay": 40,
+        "target_station": 1005201
+    },
+    {
+        "first_station": 1000324,
+        "sum_delay": 20,
+        "target_station": 1000324
+    }
+]

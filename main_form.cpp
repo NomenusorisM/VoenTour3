@@ -19,7 +19,7 @@ void MainForm::handleStartButtonClicked()
 
     // ------ Формироание отчета
     OutputValues output = BuildPathTable(_input.first.size(), _input.first, _input.second);
-    writeOutputFile("/home/ggorets0/Projects/Qt/VoenTour3/import/OUTPUT_test.json", output);
+    writeOutputFile("OUTPUT.json", output);
     // ------
 }
 
