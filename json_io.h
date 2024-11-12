@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <vector>
 #include <QString>
+#include <QPair>
 
 typedef struct {
     uint32_t id;
@@ -29,7 +30,7 @@ using DelaysArray = std::vector<delay_t>;
 using InputValues = std::pair<StationsArray, DelaysArray>;
 using OutputValues = std::vector<message_path_t>;
 
-InputValues
+QPair<InputValues, bool>
 readInputFile(const QString& filePath);
 
 bool

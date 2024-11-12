@@ -18,19 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    fill_utils.cpp \
     form.cpp \
     json_io.cpp \
     main.cpp \
     main_form.cpp \
-    PathFinding.cpp
+    BuildPathTable.cpp
 
 HEADERS += \
-    fill_utils.h \
     form.h \
     json_io.h \
     main_form.h \
-    PathFinding.h \
+    BuildPathTable.h \
     ui_form.h
 
 FORMS += \

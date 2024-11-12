@@ -1,6 +1,38 @@
 #include "BuildPathTable.h"
 
-OutputValues BuildPathTable( uint32_t RaschetNumber, StationsArray Stations, DelaysArray Connections )
+static uint32_t
+Get_Station_Index( uint32_t RaschetNumber, const StationsArray& Stations, uint32_t Station_Id )
+{
+    for( int i = 0; i < RaschetNumber; i++ )
+    {
+        if( Stations[i].id == Station_Id ) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+static void
+UpdatePathMatrix( int32_t ConnectionsMatrix[][MAX_STATIONS], PathLenMatrix_t PathMatrix[], uint32_t current_station )
+{
+    int32_t next_station = 0;
+    for( int i = 0; i < MAX_STATIONS; i++ )
+    {
+        if( ConnectionsMatrix[current_station][i] != -1 )
+        {
+            next_station = i;
+            if( PathMatrix[next_station].path_len > ( PathMatrix[current_station].path_len + ConnectionsMatrix[current_station][next_station] ) )
+            {
+                PathMatrix[next_station].path_len = PathMatrix[current_station].path_len + ConnectionsMatrix[current_station][next_station];
+                PathMatrix[next_station].first_station_index = PathMatrix[current_station].first_station_index;
+                UpdatePathMatrix( ConnectionsMatrix, PathMatrix, next_station );
+            }
+        }
+    }
+}
+
+OutputValues
+BuildPathTable( uint32_t RaschetNumber, const StationsArray& Stations, const DelaysArray& Connections )
 {
     OutputValues Output( MAX_STATIONS );
     PathLenMatrix_t PathMatrix[MAX_STATIONS];
@@ -57,33 +89,4 @@ OutputValues BuildPathTable( uint32_t RaschetNumber, StationsArray Stations, Del
     }
 
     return Output;
-}
-
-uint32_t Get_Station_Index( uint32_t RaschetNumber, StationsArray Stations, uint32_t Station_Id )
-{
-    for( int i = 0; i < RaschetNumber; i++ )
-    {
-        if( Stations[i].id == Station_Id ) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void UpdatePathMatrix( int32_t ConnectionsMatrix[][MAX_STATIONS], PathLenMatrix_t PathMatrix[], uint32_t current_station )
-{
-    int32_t next_station = 0;
-    for( int i = 0; i < MAX_STATIONS; i++ )
-    {
-        if( ConnectionsMatrix[current_station][i] != -1 )
-        {
-            next_station = i;
-            if( PathMatrix[next_station].path_len > ( PathMatrix[current_station].path_len + ConnectionsMatrix[current_station][next_station] ) )
-            {
-                PathMatrix[next_station].path_len = PathMatrix[current_station].path_len + ConnectionsMatrix[current_station][next_station];
-                PathMatrix[next_station].first_station_index = PathMatrix[current_station].first_station_index;
-                UpdatePathMatrix( ConnectionsMatrix, PathMatrix, next_station );
-            }
-        }
-    }
 }

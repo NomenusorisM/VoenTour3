@@ -3,14 +3,15 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
+#include <QPair>
 
-static QJsonDocument
+static QPair<QJsonDocument, bool>
 readJsonFromFile(const QString& filePath) {
     QFile file(filePath);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Не удалось открыть файл:" << filePath;
-        return QJsonDocument();
+        return QPair<QJsonDocument, bool>(QJsonDocument(), false);
     }
 
     // Чтение содержимого файла
@@ -22,19 +23,24 @@ readJsonFromFile(const QString& filePath) {
 
     if (jsonDoc.isNull()) {
         qWarning() << "Ошибка при разборе JSON файла";
-        return QJsonDocument();
+        return QPair<QJsonDocument, bool>(QJsonDocument(), false);
     }
 
-    return jsonDoc;
+    return QPair<QJsonDocument, bool>(jsonDoc, true);
 }
 
-InputValues
+QPair<InputValues, bool>
 readInputFile(const QString& filePath) {
-    auto rootObj = readJsonFromFile(filePath).object();
+    auto readPair = readJsonFromFile(filePath);
 
-    uint8_t stationsCount = rootObj["stations_cnt"].toInt();
-    QJsonArray stationsArray = rootObj["stations"].toArray();
-    QJsonArray delaysArray = rootObj["delays"].toArray();
+    if (!readPair.second) {
+        qWarning() << "Не удалось считать JSON файл";
+        return QPair<InputValues, bool>(InputValues(), false);
+    }
+
+    uint8_t stationsCount = readPair.first["stations_cnt"].toInt();
+    QJsonArray stationsArray = readPair.first["stations"].toArray();
+    QJsonArray delaysArray = readPair.first["delays"].toArray();
 
     // ------------ Импорт станций
     StationsArray stations;
@@ -70,7 +76,7 @@ readInputFile(const QString& filePath) {
     }
     // ------------
 
-    return InputValues(stations, delays);
+    return QPair<InputValues, bool>(InputValues(stations, delays), true);
 }
 
 bool

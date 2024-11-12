@@ -14,26 +14,13 @@
 #include <QStringList>
 
 #include "form.h"
-#include "main_form.h"
 #include "ui_main_form.h"
-#include "fill_utils.h"
-#include "PathFinding.h"
+#include "json_io.h"
+#include "BuildPathTable.h"
 
 namespace Ui {
 class MainForm;
 }
-
-struct InputFile
-{
-    int squads_cnt;
-    QPoint dest_cords;
-    QVector<QPoint> squad_cords;
-    QVector<int> squad_types;
-    QVector<int> squad_speeds;
-    QVector<int> squad_fuel_consumption;
-    int roads_cnt;
-    QVector<QLine> roads_cords;
-};
 
 class MainForm : public QDialog
 {
@@ -50,11 +37,8 @@ private slots:
 private:
     Ui::MainForm *ui;
     Form *field_dlg;
-    InputFile input_conf;
 
-    QVector<int> GetFuelConsumption(QVector<int> &path_lengths);
-    float GetMaxTime(QVector<int> &path_lengths);
-    void WriteAnswers(QVector<int> &fuel_consumptions, int max_time);
+    InputValues _input;
 };
 
 #endif // MAIN_FORM_H
